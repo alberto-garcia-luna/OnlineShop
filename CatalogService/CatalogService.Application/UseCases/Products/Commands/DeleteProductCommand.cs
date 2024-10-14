@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.UseCases.Products.Commands
 {
-	public record DeleteProductCommand(Guid Id) : IRequest;
+	public record DeleteProductCommand(int Id) : IRequest;
 
 	public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand>
 	{

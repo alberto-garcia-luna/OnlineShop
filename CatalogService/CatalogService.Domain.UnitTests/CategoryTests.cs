@@ -13,7 +13,7 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var category = new Category
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Electronics",
 				Image = "http://example.com/image.jpg",
 				ParentCategoryId = null
@@ -32,7 +32,7 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var category = new Category
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = null,
 				Image = "http://example.com/image.jpg",
 				ParentCategoryId = null
@@ -52,7 +52,7 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var category = new Category
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = new string('A', 51), // 51 characters
 				Image = "http://example.com/image.jpg",
 				ParentCategoryId = null
@@ -72,7 +72,7 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var category = new Category
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Books",
 				Image = null,
 				ParentCategoryId = null
@@ -91,7 +91,7 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var category = new Category
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Books",
 				Image = "invalid-url",
 				ParentCategoryId = null

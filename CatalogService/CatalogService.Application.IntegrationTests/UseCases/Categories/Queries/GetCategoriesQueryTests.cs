@@ -1,6 +1,5 @@
 using CatalogService.Application.IntegrationTests.Common;
 using CatalogService.Application.UseCases.Categories.Queries;
-using CatalogService.Application.UseCases.Products.Queries;
 using CatalogService.Domain.Entities;
 using FluentAssertions;
 
@@ -14,52 +13,27 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Querie
             // Seed the in-memory database with test data
             _context.Categories.AddRange(new List<Category>
             {
-                new Category { Id = Guid.NewGuid(), Name = "Category 1" },
-                new Category { Id = Guid.NewGuid(), Name = "Category 2" },
-                new Category { Id = Guid.NewGuid(), Name = "Category 3" }
+                new Category { Id = 1, Name = "Category 1" },
+                new Category { Id = 2, Name = "Category 2" },
+                new Category { Id = 3, Name = "Category 3" }
             });
 
             await _context.SaveChangesAsync();
         }
 
         [Test]
-        public async Task Handle_ReturnsPaginatedListOfCategories()
+        public async Task Handle_ReturnsListOfCategories()
         {
 			// Arrange
-			var query = new GetCategoriesQuery
-			{
-				PageNumber = 1,
-				PageSize = 10
-			};
+			var query = new GetCategoriesQuery();
 
 			// Act
 			var result = await _mediator.Send(query);
 
 			// Assert
-			result.Items.Should().NotBeNull();
-            result.Items.Should().NotBeEmpty();
-			result.Items.Should().HaveCount(3);
-            result.TotalCount.Should().Be(3);
-            result.PageNumber.Should().Be(1);
-			result.TotalPages.Should().Be(1);
+			result.Should().NotBeNull();
+            result.Should().NotBeEmpty();
+			result.Should().HaveCount(3);
 		}
-
-		[Test]
-		public async Task Handle_ShouldReturnSecondPageOfProducts_WhenMoreThanPageSizeExist()
-		{
-			// Arrange
-			var query = new GetCategoriesQuery { PageNumber = 2, PageSize = 2 };
-
-			// Act
-			var result = await _mediator.Send(query);
-
-			// Assert
-			result.Items.Should().NotBeNull();
-			result.Items.Should().NotBeEmpty();
-			result.Items.Should().HaveCount(1);
-			result.TotalCount.Should().Be(3);
-			result.PageNumber.Should().Be(2);
-			result.TotalPages.Should().Be(2);
-		}
-	}
+    }
 }

@@ -13,14 +13,14 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 	{
 		protected async override Task SeedDatabase()
 		{
-			var categoryId1 = Guid.NewGuid();
-			var categoryId2 = Guid.NewGuid();
+			var categoryId1 = 1;
+			var categoryId2 = 2;
 
 			_context.Categories.AddRange(new List<Category>
 			{
 				new Category { Id = categoryId1, Name = "Category 1" },
 				new Category { Id = categoryId2, Name = "Category 2" },
-				new Category { Id = Guid.NewGuid(), Name = "Category 3" }
+				new Category { Id = 3, Name = "Category 3" }
 			});
 
 			await _context.SaveChangesAsync();
@@ -52,7 +52,7 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 			var createdProduct = await _context.Products.FindAsync(result);
 
 			// Assert
-			result.Should().NotBe(Guid.Empty); // Ensure a new GUID is returned			
+			result.Should().NotBe(0);
 			createdProduct.Should().NotBeNull();
 			createdProduct.Name.Should().Be(productDto.Name);
 			createdProduct.Description.Should().Be(productDto.Description);

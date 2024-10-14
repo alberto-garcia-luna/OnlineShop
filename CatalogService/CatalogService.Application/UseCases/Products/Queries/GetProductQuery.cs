@@ -6,10 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.UseCases.Products.Queries
 {
-	public record GetProductQuery : IRequest<ProductDto>
-	{
-		public Guid Id { get; set; }
-	}
+	public record GetProductQuery(int Id) : IRequest<ProductDto>;
 
 	public class GetProductQueryHandler : IRequestHandler<GetProductQuery, ProductDto>
 	{

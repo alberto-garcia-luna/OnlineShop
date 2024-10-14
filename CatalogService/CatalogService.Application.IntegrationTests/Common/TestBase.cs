@@ -50,7 +50,6 @@ namespace CatalogService.Application.IntegrationTests.Common
 
 			// Register validators
 			services.AddTransient<IValidator<CreateCategoryCommnad>, CreateCategoryCommandValidator>();
-			services.AddTransient<IValidator<GetCategoriesQuery>, GetCategoriesQueryValidator>();
 			services.AddTransient<IValidator<UpdateCategoryCommnad>, UpdateCategoryCommandValidator>();
 
 			services.AddTransient<IValidator<CreateProductCommnad>, CreateProductCommandValidator>();

@@ -14,9 +14,9 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Comman
 			// Seed the in-memory database with test data
 			_context.Categories.AddRange(new List<Category>
 			{
-				new Category { Id = Guid.NewGuid(), Name = "Category 1" },
-				new Category { Id = Guid.NewGuid(), Name = "Category 2" },
-				new Category { Id = Guid.NewGuid(), Name = "Category 3" }
+				new Category { Id = 1, Name = "Category 1" },
+				new Category { Id = 2, Name = "Category 2" },
+				new Category { Id = 3, Name = "Category 3" }
 			});
 
 			await _context.SaveChangesAsync();
@@ -27,7 +27,7 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Comman
 		{
 			// Arrange
 			var categoryId = _context.Categories.First().Id;
-			var command = new DeleteCategoryCommand(categoryId.Value);
+			var command = new DeleteCategoryCommand(categoryId);
 
 			// Act
 			await _mediator.Send(command);
@@ -41,7 +41,7 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Comman
 		public async Task Handle_ShouldThrowNotFoundException_WhenCategoryDoesNotExist()
 		{
 			// Arrange
-			var nonExistentId = Guid.NewGuid(); // A non-existent category ID
+			var nonExistentId = -1; // A non-existent category ID
 			var command = new DeleteCategoryCommand(nonExistentId);
 
 			// Act

@@ -13,11 +13,11 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Smartphone",
 				Description = "<p>Latest model with great features.</p>",
 				Image = "http://example.com/image.jpg",
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 499.99m,
 				Amount = 10
 			};
@@ -35,10 +35,10 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = null,
 				Image = "http://example.com/image.jpg",
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 499.99m,
 				Amount = 10
 			};
@@ -57,10 +57,10 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = new string('A', 51), // 51 characters
 				Image = "http://example.com/image.jpg",
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 499.99m,
 				Amount = 10
 			};
@@ -79,10 +79,10 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Smartphone",
 				Image = "http://example.com/image.jpg",
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 0m, // Invalid price
 				Amount = 10
 			};
@@ -101,10 +101,10 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Smartphone",
 				Image = "http://example.com/image.jpg",
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 499.99m,
 				Amount = 0 // Invalid amount
 			};
@@ -123,10 +123,10 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Smartphone",
 				Image = null,
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 499.99m,
 				Amount = 10
 			};
@@ -144,10 +144,10 @@ namespace CatalogService.Domain.UnitTests
 			// Arrange
 			var product = new Product
 			{
-				Id = Guid.NewGuid(),
+				Id = 1,
 				Name = "Smartphone",
 				Image = "invalid-url",
-				CategoryId = Guid.NewGuid(),
+				CategoryId = 1,
 				Price = 499.99m,
 				Amount = 10
 			};

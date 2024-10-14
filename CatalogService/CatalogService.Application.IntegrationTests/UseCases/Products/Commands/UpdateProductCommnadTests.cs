@@ -6,7 +6,6 @@ using CatalogService.Application.UseCases.Products.Queries;
 using CatalogService.Domain.Entities;
 using FluentAssertions;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 {
@@ -15,14 +14,14 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 	{
 		protected async override Task SeedDatabase()
 		{
-			var category1 = new Category { Id = Guid.NewGuid(), Name = "Category 1" };
-			var category2 = new Category { Id = Guid.NewGuid(), Name = "Category 2" };
+			var category1 = new Category { Id = 1, Name = "Category 1" };
+			var category2 = new Category { Id = 2, Name = "Category 2" };
 
 			_context.Categories.AddRange(new List<Category>
 			{
 				category1,
 				category2,
-				new Category { Id = Guid.NewGuid(), Name = "Category 3" }
+				new Category { Id = 3, Name = "Category 3" }
 			});
 
 			await _context.SaveChangesAsync();
@@ -30,9 +29,9 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 			// Seed the in-memory database with test data
 			var products = new List<Product>
 			{
-				new Product { Id = Guid.NewGuid(), Name = "Product 1", Description = "Description 1", Price = 10.00m, Amount = 5, CategoryId = category1.Id.Value, Category = category1 },
-				new Product { Id = Guid.NewGuid(), Name = "Product 2", Description = "Description 2", Price = 20.00m, Amount = 10, CategoryId = category1.Id.Value, Category = category1 },
-				new Product { Id = Guid.NewGuid(), Name = "Product 3", Description = "Description 3", Price = 30.00m, Amount = 15, CategoryId = category2.Id.Value, Category = category2 },
+				new Product { Id = 1, Name = "Product 1", Description = "Description 1", Price = 10.00m, Amount = 5, CategoryId = category1.Id, Category = category1 },
+				new Product { Id = 2, Name = "Product 2", Description = "Description 2", Price = 20.00m, Amount = 10, CategoryId = category1.Id, Category = category1 },
+				new Product { Id = 3, Name = "Product 3", Description = "Description 3", Price = 30.00m, Amount = 15, CategoryId = category2.Id, Category = category2 },
 			};
 
 			await _context.Products.AddRangeAsync(products);
@@ -82,16 +81,16 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 			// Arrange
 			var productDto = new ProductDto
 			{
-				Id = Guid.NewGuid(), // Non-existing ID
+				Id = -1, // Non-existing ID
 				Name = "Some Product",
 				Description = "Some Description",
 				Image = "http://example.com/image.jpg",
 				Amount = 5,
 				Price = 99.99m,
-				CategoryId = Guid.NewGuid(),
+				CategoryId = -1,
 				Category = new CategoryDto
 				{
-					Id = Guid.NewGuid(),
+					Id = -1,
 					Name = "Product Test"
 				}
 			};
@@ -113,7 +112,7 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Products.Commands
 			var productDto = new ProductDto
 			{
 				Id = existingProduct.Id,
-				Name = "", // Invalid: empty name
+				Name = string.Empty, // Invalid: empty name
 				Description = "Updated Description",
 				Image = "http://example.com/new-image.jpg",
 				Amount = -5, // Invalid: negative amount
