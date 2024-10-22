@@ -1,4 +1,5 @@
 ﻿using CartService.Application.UseCases.CartItems.Commands;
+using CartService.Application.UseCases.CartItems.Queries;
 using CartService.Domain.Entities;
 using CartService.IntegrationTests.Common;
 using FluentAssertions;
@@ -12,7 +13,7 @@ namespace CartService.IntegrationTests.UseCases.Commnads
 		public async Task Handle_ShouldAddItemToCart_WhenItemIsValid()
 		{
 			// Arrange
-			var cartItem = new CartItem
+			var cartItem = new CartItemDto
 			{
 				CartId = ValidCartId,
 				Name = "NewItem",
@@ -36,7 +37,7 @@ namespace CartService.IntegrationTests.UseCases.Commnads
 		public async Task Handle_ShouldThrowValidationException_WhenItemIsInvalid()
 		{
 			// Arrange
-			var invalidItem = new CartItem
+			var invalidItem = new CartItemDto
 			{
 				CartId = ValidCartId,
 				Name = string.Empty, // Invalid name
@@ -57,7 +58,7 @@ namespace CartService.IntegrationTests.UseCases.Commnads
 		public async Task Handle_ShouldAddMultipleItemsToCart_WhenItemsAreValid()
 		{
 			// Arrange
-			var item1 = new CartItem
+			var item1 = new CartItemDto
 			{
 				CartId = ValidCartId,
 				Name = "Item1",
@@ -65,7 +66,7 @@ namespace CartService.IntegrationTests.UseCases.Commnads
 				Quantity = 1
 			};
 
-			var item2 = new CartItem
+			var item2 = new CartItemDto
 			{
 				CartId = ValidCartId,
 				Name = "Item2",

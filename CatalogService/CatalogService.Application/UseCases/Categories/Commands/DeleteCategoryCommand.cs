@@ -20,6 +20,7 @@ namespace CatalogService.Application.UseCases.Categories.Commands
 		{
 			var entity = await _context.Categories
 				.Where(l => l.Id == request.Id)
+				.Include(c => c.Products)
 				.SingleOrDefaultAsync(cancellationToken);
 
 			Guard.Against.NotFound(request.Id, entity);

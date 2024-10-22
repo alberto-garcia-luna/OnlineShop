@@ -50,6 +50,18 @@ namespace CartService.Infrastructure.Data
 			});
 		}
 
+		public async Task CleanDatabase()
+		{
+			await Task.Run(() =>
+			{
+				lock (_lock)
+				{
+					_collection.DeleteAll();
+					//_database.DropCollection("cartItems");
+				}
+			});
+		}
+
 		public void Dispose()
 		{
 			_database?.Dispose();

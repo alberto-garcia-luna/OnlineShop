@@ -15,11 +15,14 @@ namespace CatalogService.Application.UseCases.Categories.Queries
 
 		public virtual CategoryDto? ParentCategory { get; init; }
 
+		public IDictionary<string, string> Links { get; set; } = new Dictionary<string, string>();
+
 		private class Mapping : Profile
 		{
 			public Mapping()
 			{
-				CreateMap<Category, CategoryDto>();
+				CreateMap<Category, CategoryDto>()
+					.ForMember(dest => dest.Links, opt => opt.Ignore());
 			}
 		}
 	}

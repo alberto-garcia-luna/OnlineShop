@@ -1,16 +1,18 @@
 ﻿using CartService.Application.Behaviours;
-using CartService.Infrastructure.Data;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace CartService
+namespace CartService.Application
 {
 	public static class DependencyInjection
 	{
-		public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+		public static IServiceCollection AddApplicationServices(this IServiceCollection services)
 		{
-			services.AddSingleton(new CartRepository("Filename=OnlineShopCartService.db;"));
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+			services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 			services.AddMediatR(cfg => {
 				cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());

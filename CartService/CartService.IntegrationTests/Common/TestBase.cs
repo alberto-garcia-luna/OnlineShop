@@ -1,7 +1,10 @@
-﻿using CartService.Application.Behaviours;
+﻿using AutoMapper;
+using CartService.Application.Behaviours;
 using CartService.Application.Interfaces;
 using CartService.Application.UseCases.CartItems.Commands;
+using CartService.Application.UseCases.CartItems.Queries;
 using CartService.Application.UseCases.CartItems.Validators;
+using CartService.Domain.Entities;
 using CartService.Infrastructure.Data;
 using FluentValidation;
 using MediatR;
@@ -14,6 +17,7 @@ namespace CartService.IntegrationTests.Common
 	{
 		protected IMediator _mediator;
 		protected ICartRepository _cartRepository;
+		protected IMapper _mapper;
 		private string _dbPath = "TestCart.db";
 		public const int ValidCartId = 1;
 
@@ -26,6 +30,12 @@ namespace CartService.IntegrationTests.Common
 			// Create a unique database path for each test
 			_dbPath = $"TestCart_{Guid.NewGuid()}.db";
 			services.AddSingleton<ICartRepository>(new CartRepository(_dbPath));
+
+			services.AddAutoMapper(cfg =>
+			{
+				cfg.CreateMap<CartItemDto, CartItem>();
+				cfg.CreateMap<CartItem, CartItemDto>();
+			}, Assembly.GetExecutingAssembly());
 
 			// Register MediatR and the handler
 			services.AddMediatR(cfg => {
@@ -40,6 +50,7 @@ namespace CartService.IntegrationTests.Common
 			var serviceProvider = services.BuildServiceProvider();
 			_mediator = serviceProvider.GetRequiredService<IMediator>();
 			_cartRepository = serviceProvider.GetRequiredService<ICartRepository>();
+			_mapper = serviceProvider.GetRequiredService<IMapper>();
 
 			// Seed the database asynchronously
 			SeedDatabase().GetAwaiter().GetResult();

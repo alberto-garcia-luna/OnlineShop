@@ -26,8 +26,12 @@ namespace CatalogService.Application.UseCases.Products.Queries
 		{
 			public Mapping()
 			{
-				CreateMap<Product, ProductDto>();
+				CreateMap<Product, ProductDto>()
+					.ForMember(dest => dest.Links, opt => opt.Ignore());
 			}
 		}
+
+		public IDictionary<string, string> Links { get; set; } = new Dictionary<string, string>();
+
 	}
 }

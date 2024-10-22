@@ -1,7 +1,9 @@
 ﻿using CartService.Application.Behaviours;
 using CartService.Application.Interfaces;
 using CartService.Application.UseCases.CartItems.Commands;
+using CartService.Application.UseCases.CartItems.Queries;
 using CartService.Application.UseCases.CartItems.Validators;
+using CartService.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,20 +12,27 @@ using System.Reflection;
 
 namespace CartService.UnitTests.Application.Common
 {
-    public abstract class TestBase
+	public abstract class TestBase
     {
-        protected readonly IMediator _mediator;
-        protected readonly Mock<ICartRepository> _mockRepository;
-        public const int ValidCartId = 1;
+        protected IMediator _mediator;
+        protected Mock<ICartRepository> _mockRepository;
+		public const int ValidCartId = 1;
 
-        protected TestBase()
-        {
+		[SetUp]
+		protected void SetUp()
+		{
             // Setup the service collection
             var services = new ServiceCollection();
             _mockRepository = new Mock<ICartRepository>();
 
-            // Register MediatR and the handler
-            services.AddMediatR(cfg =>
+			services.AddAutoMapper(cfg =>
+			{
+				cfg.CreateMap<CartItemDto, CartItem>();
+				cfg.CreateMap<CartItem, CartItemDto>();
+			}, Assembly.GetExecutingAssembly());
+
+			// Register MediatR and the handler
+			services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(Assembly.GetAssembly(typeof(ICartRepository)));
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
@@ -34,8 +43,8 @@ namespace CartService.UnitTests.Application.Common
 
             services.AddSingleton(_mockRepository.Object);
 
-            // Build the service provider
-            var serviceProvider = services.BuildServiceProvider();
+			// Build the service provider
+			var serviceProvider = services.BuildServiceProvider();
             _mediator = serviceProvider.GetRequiredService<IMediator>();
 
             SeedDatabase();

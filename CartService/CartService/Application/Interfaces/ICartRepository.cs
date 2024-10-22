@@ -9,5 +9,7 @@ namespace CartService.Application.Interfaces
 		Task<int> AddItemToCart(CartItem item);
 
 		Task RemoveItemFromCart(int cartId, int itemId);
+
+		Task CleanDatabase();
 	}
 }
