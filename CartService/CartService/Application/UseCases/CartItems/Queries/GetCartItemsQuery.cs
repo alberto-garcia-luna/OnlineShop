@@ -1,26 +1,29 @@
-﻿using CartService.Application.Interfaces;
-using CartService.Domain.Entities;
+﻿using AutoMapper;
+using CartService.Application.Interfaces;
 using MediatR;
 
 namespace CartService.Application.UseCases.CartItems.Queries
 {
-	public record GetCartItemsQuery : IRequest<IEnumerable<CartItem>>
+	public record GetCartItemsQuery : IRequest<IEnumerable<CartItemDto>>
 	{
-		public required int CartId { get; set; }
+		public required string CartId { get; set; }
 	}
 
-	public class GetCartItemsQueryHandler : IRequestHandler<GetCartItemsQuery, IEnumerable<CartItem>>
+	public class GetCartItemsQueryHandler : IRequestHandler<GetCartItemsQuery, IEnumerable<CartItemDto>>
 	{
 		private readonly ICartRepository _repository;
+		private readonly IMapper _mapper;
 
-        public GetCartItemsQueryHandler(ICartRepository repository)
+		public GetCartItemsQueryHandler(ICartRepository repository, IMapper mapper)
         {
 			_repository = repository;
-        }
+			_mapper = mapper;
+		}
 
-		public async Task<IEnumerable<CartItem>> Handle(GetCartItemsQuery request, CancellationToken cancellationToken)
+		public async Task<IEnumerable<CartItemDto>> Handle(GetCartItemsQuery request, CancellationToken cancellationToken)
 		{
-			return await _repository.GetCartItems(request.CartId);
+			var cartItems = await _repository.GetCartItems(request.CartId);
+			return _mapper.Map<IEnumerable<CartItemDto>>(cartItems);
 		}
 	}
 }

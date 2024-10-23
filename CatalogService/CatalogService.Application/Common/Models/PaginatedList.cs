@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace CatalogService.Application.Common.Models
 {
@@ -8,13 +9,25 @@ namespace CatalogService.Application.Common.Models
 		public int PageNumber { get; }
 		public int TotalPages { get; }
 		public int TotalCount { get; }
+		public int PageSize { get; }		
 
-		public PaginatedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
+        public PaginatedList(IReadOnlyCollection<T> items, int totalCount, int pageNumber, int pageSize)
 		{
 			PageNumber = pageNumber;
-			TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-			TotalCount = count;
+			TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+			TotalCount = totalCount;
 			Items = items;
+			PageSize = pageSize;
+		}
+
+		[JsonConstructor]
+		public PaginatedList(IReadOnlyCollection<T> items, int totalCount, int pageNumber, int totalPages, int pageSize)
+		{
+			PageNumber = pageNumber;
+			TotalPages = totalPages;
+			TotalCount = totalCount;
+			Items = items;
+			PageSize = pageSize;
 		}
 
 		public bool HasPreviousPage => PageNumber > 1;

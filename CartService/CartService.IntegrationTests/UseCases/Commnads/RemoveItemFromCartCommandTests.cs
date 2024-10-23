@@ -1,7 +1,9 @@
-﻿using CartService.Application.UseCases.CartItems.Commands;
+﻿using Ardalis.GuardClauses;
+using CartService.Application.UseCases.CartItems.Commands;
 using CartService.Domain.Entities;
 using CartService.IntegrationTests.Common;
 using FluentAssertions;
+using System;
 
 namespace CartService.IntegrationTests.UseCases.Commnads
 {
@@ -38,7 +40,7 @@ namespace CartService.IntegrationTests.UseCases.Commnads
 		}
 
 		[Test]
-		public async Task Handle_ShouldNotThrow_WhenRemovingNonExistentItem()
+		public async Task Handle_ShouldThrowNotFoundException_WhenRemovingNonExistentItem()
 		{
 			// Arrange
 			var command = new RemoveItemFromCartCommand
@@ -48,10 +50,10 @@ namespace CartService.IntegrationTests.UseCases.Commnads
 			};
 
 			// Act
-			Func<Task> act = async () => await _mediator.Send(command);
+			Func<Task> action = async () => await _mediator.Send(command);
 
 			// Assert
-			await act.Should().NotThrowAsync(); // Ensure no exception is thrown
+			await action.Should().ThrowAsync<NotFoundException>();
 		}
 
 		[Test]

@@ -18,6 +18,20 @@ namespace CatalogService.Infrastructure.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+
+			// Configure Category-Product relationship
+			builder.Entity<Category>()
+				.HasMany(c => c.Products)
+				.WithOne(p => p.Category)
+				.HasForeignKey(p => p.CategoryId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			// Configure self-referencing relationship for ParentCategory
+			builder.Entity<Category>()
+				.HasOne(c => c.ParentCategory)
+				.WithMany()
+				.HasForeignKey(c => c.ParentCategoryId)
+				.OnDelete(DeleteBehavior.ClientSetNull);
+		}
 	}
 }

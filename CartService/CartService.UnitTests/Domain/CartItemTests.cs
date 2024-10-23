@@ -13,7 +13,7 @@ namespace CartService.UnitTests.Domain
 			// Arrange
 			var cartItem = new CartItem
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-1",
 				Id = 1,
 				Name = "Laptop",
 				Image = "http://example.com/image.jpg",
@@ -34,7 +34,7 @@ namespace CartService.UnitTests.Domain
 			// Arrange
 			var cartItem = new CartItem
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-1",
 				Id = 1,
 				Name = null,
 				Image = "http://example.com/image.jpg",
@@ -56,7 +56,7 @@ namespace CartService.UnitTests.Domain
 			// Arrange
 			var cartItem = new CartItem
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-1",
 				Id = 1,
 				Name = "Laptop",
 				Image = "http://example.com/image.jpg",
@@ -78,7 +78,7 @@ namespace CartService.UnitTests.Domain
 			// Arrange
 			var cartItem = new CartItem
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-1",
 				Id = 1,
 				Name = "Laptop",
 				Image = "http://example.com/image.jpg",
@@ -100,7 +100,7 @@ namespace CartService.UnitTests.Domain
 			// Arrange
 			var cartItem = new CartItem
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-1",
 				Id = 1,
 				Name = "Laptop",
 				Image = null,
@@ -121,7 +121,7 @@ namespace CartService.UnitTests.Domain
 			// Arrange
 			var cartItem = new CartItem
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-1",
 				Id = 1,
 				Name = "Laptop",
 				Image = "invalid-url",

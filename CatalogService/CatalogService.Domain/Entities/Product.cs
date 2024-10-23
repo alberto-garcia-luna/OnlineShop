@@ -4,7 +4,7 @@ namespace CatalogService.Domain.Entities
 {
 	public class Product
 	{
-		public Guid? Id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[MaxLength(50)]
@@ -16,7 +16,7 @@ namespace CatalogService.Domain.Entities
 		public string? Image { get; set; }
 
 		[Required]
-		public required Guid CategoryId { get; set; }
+		public required int CategoryId { get; set; }
 
 		public virtual Category Category { get; set; }
 

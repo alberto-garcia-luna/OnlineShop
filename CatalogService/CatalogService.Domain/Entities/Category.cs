@@ -4,7 +4,7 @@ namespace CatalogService.Domain.Entities
 {
 	public class Category
 	{
-		public Guid? Id { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[MaxLength(50)]
@@ -13,8 +13,10 @@ namespace CatalogService.Domain.Entities
 		[Url]
 		public string? Image { get; set; }
 
-		public Guid? ParentCategoryId { get; set; }
+		public int? ParentCategoryId { get; set; }
 
 		public virtual Category? ParentCategory { get; set; }
+
+		public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 	}
 }

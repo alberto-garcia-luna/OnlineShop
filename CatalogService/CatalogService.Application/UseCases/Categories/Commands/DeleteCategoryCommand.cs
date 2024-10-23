@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.UseCases.Categories.Commands
 {
-	public record DeleteCategoryCommand(Guid Id) : IRequest;
+	public record DeleteCategoryCommand(int Id) : IRequest;
 
 	public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand>
 	{
@@ -20,6 +20,7 @@ namespace CatalogService.Application.UseCases.Categories.Commands
 		{
 			var entity = await _context.Categories
 				.Where(l => l.Id == request.Id)
+				.Include(c => c.Products)
 				.SingleOrDefaultAsync(cancellationToken);
 
 			Guard.Against.NotFound(request.Id, entity);

@@ -5,12 +5,12 @@ using MediatR;
 
 namespace CatalogService.Application.UseCases.Categories.Commands
 {
-	public record CreateCategoryCommnad : IRequest<Guid>
+	public record CreateCategoryCommnad : IRequest<int>
 	{
         public required CategoryDto Category { get; set; }
     }
 
-	public class CreateCategoryCommnadHandler : IRequestHandler<CreateCategoryCommnad, Guid>
+	public class CreateCategoryCommnadHandler : IRequestHandler<CreateCategoryCommnad, int>
 	{
 		private readonly IApplicationDbContext _context;
 
@@ -19,7 +19,7 @@ namespace CatalogService.Application.UseCases.Categories.Commands
             _context = context;
 		}
 
-		public async Task<Guid> Handle(CreateCategoryCommnad request, CancellationToken cancellationToken)
+		public async Task<int> Handle(CreateCategoryCommnad request, CancellationToken cancellationToken)
 		{
 			var entity = new Category()
 			{
@@ -31,7 +31,7 @@ namespace CatalogService.Application.UseCases.Categories.Commands
 			_context.Categories.Add(entity);
 			await _context.SaveChangesAsync(cancellationToken);
 
-			return entity.Id.Value;
+			return entity.Id;
 		}
 	}
 }

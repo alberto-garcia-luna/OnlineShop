@@ -13,9 +13,9 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Querie
             // Seed the in-memory database with test data
             _context.Categories.AddRange(new List<Category>
             {
-                new Category { Id = Guid.NewGuid(), Name = "Category 1" },
-                new Category { Id = Guid.NewGuid(), Name = "Category 2" },
-                new Category { Id = Guid.NewGuid(), Name = "Category 3" }
+                new Category { Id = 1, Name = "Category 1" },
+                new Category { Id = 2, Name = "Category 2" },
+                new Category { Id = 3, Name = "Category 3" }
             });
 
             await _context.SaveChangesAsync();
@@ -26,10 +26,7 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Querie
         {
             // Arrange
             var categoryId = _context.Categories.First().Id;
-            var query = new GetCategoryQuery 
-            { 
-                Id = categoryId.Value 
-            };
+            var query = new GetCategoryQuery(categoryId);
 
 			// Act
 			var result = await _mediator.Send(query);
@@ -43,10 +40,7 @@ namespace CatalogService.Application.IntegrationTests.UseCases.Categories.Querie
         public async Task Handle_ReturnsNull_WhenCategoryDoesNotExist()
         {
             // Arrange
-            var query = new GetCategoryQuery 
-            { 
-                Id = Guid.NewGuid() // Non-existing ID
-			};
+            var query = new GetCategoryQuery(-1); // Non-existing ID
 
 			// Act
 			var result = await _mediator.Send(query);

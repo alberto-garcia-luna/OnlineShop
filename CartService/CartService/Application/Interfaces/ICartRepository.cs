@@ -4,10 +4,14 @@ namespace CartService.Application.Interfaces
 {
 	public interface ICartRepository
 	{
-		Task<IEnumerable<CartItem>> GetCartItems(int cartId);
+		Task<IEnumerable<CartItem>> GetCartItems(string cartId);
+
+		Task<CartItem> GetCartItem(string cartId, int cartItemId);
 
 		Task<int> AddItemToCart(CartItem item);
 
-		Task RemoveItemFromCart(int cartId, int itemId);
+		Task RemoveItemFromCart(string cartId, int itemId);
+
+		Task CleanDatabase();
 	}
 }

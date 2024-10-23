@@ -16,13 +16,14 @@ using System.Reflection;
 
 namespace CatalogService.Application.IntegrationTests.Common
 {
-	public abstract class TestBase : IDisposable
+	public abstract class TestBase
     {
-        protected readonly IApplicationDbContext _context;
-		protected readonly IMediator _mediator;
+        protected IApplicationDbContext _context;
+		protected IMediator _mediator;
 
-		protected TestBase()
-        {
+		[SetUp]
+		public virtual void SetUp()
+		{
             var services = new ServiceCollection();
 
             // Configure in-memory database
@@ -50,7 +51,6 @@ namespace CatalogService.Application.IntegrationTests.Common
 
 			// Register validators
 			services.AddTransient<IValidator<CreateCategoryCommnad>, CreateCategoryCommandValidator>();
-			services.AddTransient<IValidator<GetCategoriesQuery>, GetCategoriesQueryValidator>();
 			services.AddTransient<IValidator<UpdateCategoryCommnad>, UpdateCategoryCommandValidator>();
 
 			services.AddTransient<IValidator<CreateProductCommnad>, CreateProductCommandValidator>();
@@ -72,12 +72,16 @@ namespace CatalogService.Application.IntegrationTests.Common
             // Override this method in derived classes to seed test data
         }
 
-        public void Dispose()
+		[TearDown]
+		public virtual void TearDown()
         {
-            // Cleanup
-            var dbContext = (ApplicationDbContext)_context;
-            dbContext.Database.EnsureDeleted();
-            dbContext.Dispose();
-        }
+			// Cleanup
+			if (_context != null)
+			{
+				var dbContext = (ApplicationDbContext)_context;
+				dbContext.Database.EnsureDeleted();
+				dbContext.Dispose();
+			}
+		}
     }
 }

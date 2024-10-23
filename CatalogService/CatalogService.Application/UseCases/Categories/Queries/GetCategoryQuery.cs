@@ -6,10 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Application.UseCases.Categories.Queries
 {
-	public record GetCategoryQuery : IRequest<CategoryDto>
-    {
-        public Guid Id { get; set; }
-    }
+	public record GetCategoryQuery(int Id) : IRequest<CategoryDto>;
 
     public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, CategoryDto>
     {

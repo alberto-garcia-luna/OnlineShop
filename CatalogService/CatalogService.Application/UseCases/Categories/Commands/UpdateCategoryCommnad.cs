@@ -24,7 +24,7 @@ namespace CatalogService.Application.UseCases.Categories.Commands
 			var entity = await _context.Categories
 				.FindAsync([request.Category.Id], cancellationToken);
 
-			Guard.Against.NotFound(request.Category.Id.Value, entity);
+			Guard.Against.NotFound(request.Category.Id, entity);
 
 			entity.Name = request.Category.Name;			
 			entity.Image = request.Category.Image;

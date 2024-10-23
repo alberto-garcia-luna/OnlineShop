@@ -5,12 +5,12 @@ using MediatR;
 
 namespace CatalogService.Application.UseCases.Products.Commands
 {
-	public record CreateProductCommnad : IRequest<Guid>
+	public record CreateProductCommnad : IRequest<int>
 	{
 		public required ProductDto Product { get; set; }
 	}
 
-	public class CreateProductCommnadHandler : IRequestHandler<CreateProductCommnad, Guid>
+	public class CreateProductCommnadHandler : IRequestHandler<CreateProductCommnad, int>
 	{
 		private readonly IApplicationDbContext _context;
 
@@ -19,7 +19,7 @@ namespace CatalogService.Application.UseCases.Products.Commands
 			_context = context;
 		}
 
-		public async Task<Guid> Handle(CreateProductCommnad request, CancellationToken cancellationToken)
+		public async Task<int> Handle(CreateProductCommnad request, CancellationToken cancellationToken)
 		{
 			var entity = new Product()
 			{
@@ -34,7 +34,7 @@ namespace CatalogService.Application.UseCases.Products.Commands
 			_context.Products.Add(entity);
 			await _context.SaveChangesAsync(cancellationToken);
 
-			return entity.Id.Value;
+			return entity.Id;
 		}
 	}
 }

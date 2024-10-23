@@ -41,7 +41,7 @@ namespace CartService.UnitTests.Application.UseCases.Queries
         public async Task Handle_ShouldReturnEmptyList_WhenCartHasNoItems()
         {
             // Arrange
-            var cartId = 2;
+            string cartId = "CartUniqueKey-123";
 
             _mockRepository.Setup(repo => repo.GetCartItems(cartId))
                 .ReturnsAsync(new List<CartItem>());
@@ -60,14 +60,13 @@ namespace CartService.UnitTests.Application.UseCases.Queries
         public async Task Handle_ShouldCallRepositoryWithCorrectCartId()
         {
             // Arrange
-            var cartId = 3;
-            var query = new GetCartItemsQuery { CartId = cartId };
+            var query = new GetCartItemsQuery { CartId = ValidCartId };
 
             // Act
             await _mediator.Send(query);
 
             // Assert
-            _mockRepository.Verify(repo => repo.GetCartItems(cartId), Times.Once);
+            _mockRepository.Verify(repo => repo.GetCartItems(ValidCartId), Times.Once);
         }
     }
 }

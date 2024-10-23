@@ -6,7 +6,7 @@ namespace CatalogService.Application.UseCases.Products.Queries
 {
 	public class ProductDto
     {
-        public Guid? Id { get; init; }
+        public int Id { get; init; }
 
         public string? Name { get; init; }
 
@@ -14,7 +14,7 @@ namespace CatalogService.Application.UseCases.Products.Queries
 
         public string? Image { get; init; }
 
-        public Guid? CategoryId { get; init; }
+        public int? CategoryId { get; init; }
 
         public CategoryDto? Category { get; init; }
 
@@ -26,8 +26,12 @@ namespace CatalogService.Application.UseCases.Products.Queries
 		{
 			public Mapping()
 			{
-				CreateMap<Product, ProductDto>();
+				CreateMap<Product, ProductDto>()
+					.ForMember(dest => dest.Links, opt => opt.Ignore());
 			}
 		}
+
+		public IDictionary<string, string> Links { get; set; } = new Dictionary<string, string>();
+
 	}
 }

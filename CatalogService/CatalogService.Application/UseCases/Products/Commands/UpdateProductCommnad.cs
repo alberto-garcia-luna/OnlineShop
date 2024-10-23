@@ -24,7 +24,7 @@ namespace CatalogService.Application.UseCases.Products.Commands
 			var entity = await _context.Products
 				.FindAsync([request.Product.Id], cancellationToken);
 
-			Guard.Against.NotFound(request.Product.Id.Value, entity);
+			Guard.Against.NotFound(request.Product.Id, entity);
 
 			entity.Name = request.Product.Name;
 			entity.Image = request.Product.Image;
