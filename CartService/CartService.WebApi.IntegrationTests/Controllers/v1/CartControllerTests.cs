@@ -1,17 +1,16 @@
 ﻿using CartService.Application.UseCases.CartItems.Queries;
-using CartService.WebApi.Controllers.v1;
 using CartService.WebApi.IntegrationTests.Common;
+using CartService.WebApi.Model;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
 
 namespace CartService.WebApi.IntegrationTests.Controllers.v1
 {
-	[TestFixture]
+    [TestFixture]
 	public class CartControllerTests : TestBase
 	{
 		[Test]
-		[NonParallelizable]
 		public async Task GetCart_ReturnsOk_WhenCartExists()
 		{
 			// Arrange: Add an item to the cart first
@@ -39,7 +38,6 @@ namespace CartService.WebApi.IntegrationTests.Controllers.v1
 		}
 
 		[Test]
-		[NonParallelizable]
 		public async Task GetCart_ReturnsNotFound_WhenCartDoesNotExist()
 		{
 			// Act
@@ -50,7 +48,45 @@ namespace CartService.WebApi.IntegrationTests.Controllers.v1
 		}
 
 		[Test]
-		[NonParallelizable]
+		public async Task GetCartItem_ReturnsOk_WhenItemExists()
+		{
+			// Arrange: Add an item to the cart first
+			var item = new CartItemDto
+			{
+				CartId = ValidCartId,
+				Name = "Test Item",
+				Price = 10.0m,
+				Quantity = 1
+			};
+
+			var addedResponse = await _client.PostAsJsonAsync($"/api/v1.0/cart/{ValidCartId}/items", item);
+			addedResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+			var addCartItemModel = await addedResponse.Content.ReadFromJsonAsync<AddCartItemModel>();
+
+			// Act
+			var response = await _client.GetAsync($"/api/v1.0/cart/{ValidCartId}/items/{addCartItemModel.CartItemId}");
+
+			// Assert
+			response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+			var result = await response.Content.ReadFromJsonAsync<CartItemDto>();
+			Assert.IsNotNull(result);
+			Assert.AreEqual(item.Name, result.Name);
+			Assert.AreEqual(item.Price, result.Price);
+			Assert.AreEqual(item.Quantity, result.Quantity);
+		}
+
+		[Test]
+		public async Task GetCartItem_ReturnsNotFound_WhenItemDoesNotExist()
+		{
+			// Act
+			var response = await _client.GetAsync($"/api/v1.0/cart/{ValidCartId}/items/-1");
+
+			// Assert
+			response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+		}
+
+		[Test]
 		public async Task AddItem_ReturnsCreated_WhenItemIsValid()
 		{
 			// Arrange
@@ -65,8 +101,7 @@ namespace CartService.WebApi.IntegrationTests.Controllers.v1
 			// Act
 			var addedResponse = await _client.PostAsJsonAsync($"/api/v1.0/cart/{ValidCartId}/items", item);
 			addedResponse.StatusCode.Should().Be(HttpStatusCode.Created);
-
-			var cartItemId = await addedResponse.Content.ReadFromJsonAsync<int>();
+			await addedResponse.Content.ReadFromJsonAsync<AddCartItemModel>();
 
 			// Assert
 			var response = await _client.GetAsync($"/api/v1.0/cart/{ValidCartId}");
@@ -74,7 +109,6 @@ namespace CartService.WebApi.IntegrationTests.Controllers.v1
 		}
 
 		[Test]
-		[NonParallelizable]
 		public async Task RemoveItem_ReturnsNoContent_WhenItemExists()
 		{
 			// Arrange: Add an item to the cart first
@@ -86,17 +120,23 @@ namespace CartService.WebApi.IntegrationTests.Controllers.v1
 				Quantity = 1
 			};
 			var addedResponse = await _client.PostAsJsonAsync($"/api/v1.0/cart/{ValidCartId}/items", item);
-			var cartItemId = await addedResponse.Content.ReadFromJsonAsync<int>();
+			addedResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+
+			var addCartItemModel = await addedResponse.Content.ReadFromJsonAsync<AddCartItemModel>();
+			addCartItemModel.Should().NotBeNull();
 
 			// Act
-			var response = await _client.DeleteAsync($"/api/v1.0/cart/{ValidCartId}/items/{cartItemId}");
+			var deleteResponse = await _client.DeleteAsync($"/api/v1.0/cart/{ValidCartId}/items/{addCartItemModel.CartItemId}");
 
 			// Assert
-			response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+			deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+			// Check that the item is not found anymore
+			var response = await _client.GetAsync($"/api/v1.0/cart/{ValidCartId}/items/{addCartItemModel.CartItemId}");
+			response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 		}
 
 		[Test]
-		[NonParallelizable]
 		public async Task RemoveItem_ReturnsNotFound_WhenItemDoesNotExist()
 		{
 			// Act

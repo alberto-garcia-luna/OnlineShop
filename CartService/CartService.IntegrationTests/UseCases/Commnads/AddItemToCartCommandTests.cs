@@ -1,6 +1,5 @@
 ﻿using CartService.Application.UseCases.CartItems.Commands;
 using CartService.Application.UseCases.CartItems.Queries;
-using CartService.Domain.Entities;
 using CartService.IntegrationTests.Common;
 using FluentAssertions;
 

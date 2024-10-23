@@ -5,7 +5,7 @@ namespace CartService.Domain.Entities
 	public class CartItem
 	{
 		[Required]
-		public int CartId { get; set; }
+		public required string CartId { get; set; }
 
 		public int Id { get; set; }
 

@@ -16,7 +16,7 @@ namespace CartService.Infrastructure.Data
             _collection = _database.GetCollection<CartItem>("cartItems");
         }
 
-        public async Task<IEnumerable<CartItem>> GetCartItems(int cartId)
+        public async Task<IEnumerable<CartItem>> GetCartItems(string cartId)
         {
 			return await Task.Run(() =>
 			{
@@ -27,7 +27,19 @@ namespace CartService.Infrastructure.Data
 			});
 		}
 
-        public async Task<int> AddItemToCart(CartItem item)
+		public async Task<CartItem> GetCartItem(string cartId, int cartItemId)
+		{
+			return await Task.Run(() =>
+			{
+				lock (_lock)
+				{
+					return _collection
+						.FindOne(x => x.CartId == cartId && x.Id == cartItemId);
+				}
+			});
+		}
+
+		public async Task<int> AddItemToCart(CartItem item)
         {
 			return await Task.Run(() =>
 			{
@@ -39,7 +51,7 @@ namespace CartService.Infrastructure.Data
 			});
 		}
 
-        public async Task RemoveItemFromCart(int cartId, int itemId)
+        public async Task RemoveItemFromCart(string cartId, int itemId)
         {
 			await Task.Run(() =>
 			{
@@ -57,7 +69,6 @@ namespace CartService.Infrastructure.Data
 				lock (_lock)
 				{
 					_collection.DeleteAll();
-					//_database.DropCollection("cartItems");
 				}
 			});
 		}

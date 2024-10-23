@@ -6,9 +6,9 @@ namespace CartService.Application.UseCases.CartItems.Commands
 {
 	public record RemoveItemFromCartCommand : IRequest
 	{
-		public int CartId { get; set; }
+		public required string CartId { get; set; }
 
-		public int ItemId { get; set; }
+		public required int ItemId { get; set; }
 	}
 
 	public class RemoveItemFromCartCommandHandler : IRequestHandler<RemoveItemFromCartCommand>

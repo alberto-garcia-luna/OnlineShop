@@ -6,7 +6,7 @@ namespace CartService.Application.UseCases.CartItems.Queries
 {
 	public record GetCartItemsQuery : IRequest<IEnumerable<CartItemDto>>
 	{
-		public required int CartId { get; set; }
+		public required string CartId { get; set; }
 	}
 
 	public class GetCartItemsQueryHandler : IRequestHandler<GetCartItemsQuery, IEnumerable<CartItemDto>>

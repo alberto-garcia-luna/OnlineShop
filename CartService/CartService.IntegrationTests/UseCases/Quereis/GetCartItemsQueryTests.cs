@@ -43,7 +43,7 @@ namespace CartService.IntegrationTests.UseCases.Quereis
         public async Task Handle_ShouldReturnEmptyList_WhenCartHasNoItems()
         {
             // Arrange
-            var cartId = 2;
+            string cartId = "CartUniqueKey-123";
             var query = new GetCartItemsQuery { CartId = cartId };
 
             // Act

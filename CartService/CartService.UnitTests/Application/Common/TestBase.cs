@@ -16,7 +16,7 @@ namespace CartService.UnitTests.Application.Common
     {
         protected IMediator _mediator;
         protected Mock<ICartRepository> _mockRepository;
-		public const int ValidCartId = 1;
+		public const string ValidCartId = "CartUniqueKey-1";
 
 		[SetUp]
 		protected void SetUp()

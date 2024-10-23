@@ -19,7 +19,7 @@ namespace CartService.IntegrationTests.Common
 		protected ICartRepository _cartRepository;
 		protected IMapper _mapper;
 		private string _dbPath = "TestCart.db";
-		public const int ValidCartId = 1;
+		public const string ValidCartId = "CartUniqueKey-1";
 
 		[SetUp]
 		protected void SetUp()
@@ -28,12 +28,10 @@ namespace CartService.IntegrationTests.Common
 			var services = new ServiceCollection();
 
 			// Create a unique database path for each test
-			_dbPath = $"TestCart_{Guid.NewGuid()}.db";
 			services.AddSingleton<ICartRepository>(new CartRepository(_dbPath));
 
 			services.AddAutoMapper(cfg =>
 			{
-				cfg.CreateMap<CartItemDto, CartItem>();
 				cfg.CreateMap<CartItem, CartItemDto>();
 			}, Assembly.GetExecutingAssembly());
 

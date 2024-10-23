@@ -5,7 +5,7 @@ namespace CartService.Application.UseCases.CartItems.Queries
 {
 	public class CartItemDto
 	{
-		public int CartId { get; init; }
+		public string? CartId { get; init; }
 
 		public int Id { get; init; }
 

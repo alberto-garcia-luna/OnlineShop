@@ -44,7 +44,7 @@ namespace CartService.UnitTests.Application.UseCases.Commands
 			// Arrange
 			var command = new RemoveItemFromCartCommand
 			{
-				CartId = 1,
+				CartId = "CartUniqueKey-123",
 				ItemId = 1
 			};
 
